@@ -1,0 +1,26 @@
+<annotation>
+	<folder>chickenImages</folder>
+	<filename>chicken_51.jpg</filename>
+	<path>C:\Users\dwago\OneDrive\Online Docs\GitHub\RGUChickens\chickenImages\chicken_51.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>239</width>
+		<height>211</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>chicken</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>7</xmin>
+			<ymin>11</ymin>
+			<xmax>228</xmax>
+			<ymax>204</ymax>
+		</bndbox>
+	</object>
+</annotation>
