@@ -1,0 +1,60 @@
+<html>
+<!-- Beginning of the HomePage -->
+  <head>
+    <!-- Links to the stylesheet and the Google Fonts font style -->
+  <link rel="stylesheet" type="text/css" href="homepagestyle.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  </head>
+  <body>
+    <!-- This Div is meant to for the side navigation bar -->
+  <div class="sidenav">
+    <img src="menuicon.jpg" width="72px" height="72px" style="display: block; margin: 0 auto;">
+    <a href="index.html">Main</a>
+    <a href="AboutSite.html">About</a>
+  </div>
+  <!-- this Div is meant for the banner that is viewable at the top of the webpage. -->
+  <div class="banner">
+    <h1>RGU Hack. Chicken Monitoring site</h1>
+  </div>
+
+  <main>
+    <!-- displays the title of the page -->
+    <div class="MainTitle" style="text-align: center;">
+      <h1><u>Log In</u><h1>
+    </div>
+
+    <div class="MainpageText" style="margin-left: 20px;">
+
+    </div>
+
+    <div class="Login">
+      <center>
+      <form name="login">
+        Username: <br>
+        <input type="text" name="userName"/><br>
+        Password: <br>
+        <input type="password" name="password"/><br>
+        <input type="button" onclick="check(this.form)" value="Login"/>
+        <!-- "Register" button doesn't do anything at the moment. -->
+        <input type="button" value="Register"/>
+      </form>
+      <script language="javascript">
+      /*function to check userid & password*/
+        function check(form){
+          /*the following code checkes whether the entered userid and password are matching*/
+          if(form.userName.value == "RGU HACK" && form.password.value == "rgu-hack01")
+            {
+              window.open('Dashboard.html')/*opens the target page while Id & password matches*/
+            }
+            else
+            {
+              alert("Error Password or Username")/*displays error message*/
+            }
+          }
+      </script>
+    </center>
+    </div>
+  </main>
+</body>
+
+</html>

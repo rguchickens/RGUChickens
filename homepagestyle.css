@@ -1,0 +1,98 @@
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #730099;
+  overflow-x: hidden;
+  padding-top: 20px;
+  border-right: 10px;
+  border-right-style: solid;
+  border-right-color: #4d0066;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #ffffff;
+  display: block;
+
+}
+
+.sidenav a:hover {
+  color: #999999;
+}
+
+main {
+  margin-left: 180px;
+}
+
+body{
+  margin-top:0;
+  margin-right:0;
+}
+
+.banner {
+  color: #ffffff;
+  line-height: 80px;
+  text-align: center;
+  margin-left: 180px;
+  background-color: #730099;
+  height: 80px;
+  border-bottom: 10px;
+  border-bottom-style: solid;
+  border-bottom-color: #4d0066;
+}
+
+.profileImage {
+  padding: 20px;
+}
+
+
+.MainpageText {
+  font-size: 20px;
+}
+
+.DashboardTitleContent {
+  font-size: 20px;
+}
+
+.contactmeTable th {
+  font-size: 28px;
+  text-align: left;
+}
+
+.projectsTable table {
+  border: 2px solid black;
+  border-collapse: collapse;
+  width: 100%
+}
+
+.projectsTable th {
+  border: 2px solid black;
+}
+
+.projectsTable td {
+  border: 2px solid black;
+}
+
+.CVText table {
+  border: 2px solid black;
+  border-collapse: collapse;
+  width: 75%
+}
+
+.CVText th {
+  border: 2px solid black;
+}
+
+.CVText td {
+  border: 2px solid black;
+}

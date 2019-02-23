@@ -1,0 +1,115 @@
+<html>
+  <!-- In practice this page is only meant to be seen post login screen. -->
+  <head>
+    <!-- Links to the stylesheet and the Google Fonts font style -->
+  <link rel="stylesheet" type="text/css" href="homepagestyle.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  </head>
+  <body>
+    <!-- This Div is meant to for the side navigation bar -->
+  <div class="sidenav">
+    <img src="menuicon.jpg" width="72px" height="72px" style="display: block; margin: 0 auto;">
+    <a href="index.html">Main</a>
+    <a href="AboutSite.html">About Site</a>
+  </div>
+  <!-- this Div is meant for the banner that is viewable at the top of the webpage. -->
+  <div class="banner">
+    <h1>RGU Hack. Chicken Monitoring site</h1>
+  </div>
+
+  <main>
+    <!-- displays the title of the page -->
+    <div class="DashboardTitle" style="text-align: center;">
+      <h1><u>Dashboard</u><h1>
+    </div>
+    <!-- contains the main content of the page
+          Currently Unused for RGU hack-->
+    <div class="DashboardContent" style="margin-left: 20px;">
+
+    </div>
+<!-- insert IP of MJPG source into img src and appropriate resolution -->
+    <div class="MJPG_stream">
+      <center><h2><u>Live Feed</u></h2></center><br>
+      <img src="" height="" width="">
+    </div>
+<!-- info log is a long list of text displaying events that happened.
+      currently only displays when chickens have entered and exited.
+      Triggering the JavaScript functions is enough to produce this-->
+    <div class="Infolog" style="margin-left: 20px;">
+
+      <h2><u>Session Information Log</u></h2>
+      Current Session Time: <label id="timer"></label><br>
+
+      <script language="javascript">
+        var timerVar = setInterval(countTimer, 1000);
+        var totalSeconds = 0;
+        function countTimer() {
+          ++totalSeconds;
+          var hour = pad(Math.floor(totalSeconds /3600));
+          var minute = pad(Math.floor((totalSeconds - hour*3600)/60));
+          var seconds = pad(totalSeconds - (hour*3600 + minute*60));
+
+          function pad(val) {
+            var valString = val + "";
+            if (valString.length < 2) {
+              return "0" + valString;
+            } else {
+              return valString;
+            }
+          }
+
+          document.getElementById("timer").innerHTML = hour + ":" + minute + ":" + seconds;
+        }
+      </script>
+
+      TEST ONLY!<br>
+      <!-- these buttons are for testing only. -->
+      Simulate Event 1: <button onclick="Event1();">Click</button><br>
+      Simulate Event 2: <button onclick="Event2();">Click</button><br>
+      <p id="list_display"></p>
+
+
+      <script language="javascript">
+
+      var infoLog = new Array();
+      var infoLogCount = infoLog.length;
+      var time = new Date();
+      var output = "";
+
+      //Code that is able to read from raspberry pi io to be put here
+
+      //creates alert and logs to list
+
+        function Event1() {
+          var dt = new Date();
+          var utcDate = dt.toUTCString();
+          alert("A Chicken has been detected exiting the coop");
+          infoLog.push("[ " + utcDate + " ] Chicken detected exiting coop");
+          display();
+        }
+
+        function Event2 (){
+          var dt = new Date();
+          var utcDate = dt.toUTCString();
+          alert("A Chicken has been detected entering the coop");
+          infoLog.push("[ " + utcDate + " ] Chicken detected entering coop");
+          display();
+        }
+
+         function display() {
+
+           for(var i = infoLog.length - 1; i >= 0; i--){
+             output += "<p>" + infoLog[i] + "</p>";
+           }
+           document.getElementById("list_display").innerHTML = output;
+           infoLog = [];
+         }
+      </script>
+
+    </div>
+
+    <br>
+  </main>
+</body>
+
+</html>
