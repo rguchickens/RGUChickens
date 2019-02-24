@@ -5,10 +5,15 @@ socket.on('example-pong', function (data) {
 });
 
 
-socket.on('motion', function (data) {
-	console.log("motion");
+socket.on('inside', function (data) {
+	console.log("inside motion");
 });
-window.addEventListener("load", function(){
+
+socket.on('outside', function (data) {
+        console.log("outside motion");
+});
+
+$(function() {
 
   var button = document.getElementById('hello');
 

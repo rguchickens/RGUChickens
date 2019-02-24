@@ -3,8 +3,12 @@ var io = require('socket.io')(app)
 var url = require('url')
 var fs = require('fs')
 var Gpio = require('onoff').Gpio;
-var motion = new Gpio(27, 'in',  'both');
-var pirState=false;
+var inside = new Gpio(27, 'in',  'both');
+var outside=new Gpio(22,'in','both');
+
+var fpath = require('path');
+var insideState=false;
+var outsideState=false;
 //This will open a server at localhost:5000. Navigate to this in your browser.
 app.listen(5000);
 
@@ -16,12 +20,12 @@ function handler (req, res) {
 
     // Managing the root route
     if (path == '/') {
-        index = fs.readFile(__dirname+'/public/Dashboard.html',
+        index = fs.readFile(__dirname+'/public/index.html',
             function(error,data) {
 
                 if (error) {
                     res.writeHead(500);
-                    return res.end("Error: unable to load Dashboard.html");
+                    return res.end("Error: unable to load index.html");
                 }
 
                 res.writeHead(200,{'Content-Type': 'text/html'});
@@ -41,8 +45,47 @@ function handler (req, res) {
                 res.end(data);
             });
     } else {
-        res.writeHead(404);
-        res.end("Error: 404 - File not found.");
+	var extname = fpath.extname(path);
+    var contentType = 'text/html';
+    switch (extname) {
+        case '.js':
+            contentType = 'text/javascript';
+            break;
+        case '.css':
+            contentType = 'text/css';
+            break;
+        case '.json':
+            contentType = 'application/json';
+            break;
+        case '.png':
+            contentType = 'image/png';
+            break;      
+        case '.jpg':
+            contentType = 'image/jpg';
+            break;
+        case '.wav':
+            contentType = 'audio/wav';
+            break;
+    }
+	fs.readFile(__dirname+'/public/'+path, function(error, content) {
+        if (error) {
+            if(error.code == 'ENOENT'){
+                fs.readFile('./404.html', function(error, content) {
+                    res.writeHead(200, { 'Content-Type': contentType });
+                    res.end(content, 'utf-8');
+                });
+            }
+            else {
+                res.writeHead(500);
+                res.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                res.end(); 
+            }
+        }
+        else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf-8');
+        }
+    });
     }
 
 }
@@ -69,7 +112,7 @@ process.on('SIGUSR2',() => {
 	io.sockets.emit('motion');
 
 });
-motion.watch(function (err, value) {
+inside.watch(function (err, value) {
 	if(err) {
 		console.error('There was an error', err);
 	}
@@ -77,27 +120,50 @@ motion.watch(function (err, value) {
 	{
 	console.log(value)
 		if(value==1) {
-			if(!pirState) {
+			if(!insideState) {
 				console.log('motion !');
-				io.sockets.emit('motion');
-				pirState=true;
+				io.sockets.emit('inside');
+				insideState=true;
 			}
 		}
 		else
 		{
-			if(pirState=true)
+			if(insideState=true)
 			{
-				pirState=false;
+				insideState=false;
 			}
 		}
 	}
 });
 
+outside.watch(function (err, value) {
+        if(err) {
+                console.error('There was an error', err);
+        }
+        else
+        {
+        console.log(value)
+                if(value==1) {
+                        if(!outsideState) {
+                                console.log('motion !');
+                                io.sockets.emit('outside');
+                                outsideState=true;
+                        }
+                }
+                else
+                {
+                        if(outsideState=true)
+                        {
+                                outsideState=false;
+                        }
+                }
+        }
+});
 
 function unexportOnClose() { //function to run when exiting program
 //  LED.writeSync(0); // Turn LED off
 //  LED.unexport(); // Unexport LED GPIO to free resources
-  motion.unexport(); // Unexport Button GPIO to free resources
+  inside.unexport(); // Unexport Button GPIO to free resources
 };
 
 process.on('SIGINT', unexportOnClose); //function to run when user closes using ctrl+c
