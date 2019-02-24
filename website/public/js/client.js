@@ -17,7 +17,14 @@ socket.on('goingInside', function (data) {
         console.log("Chicken Entered");
 	Event2();
 });
+socket.on('motion', function (data) {
+        console.log("inside motion");
+var dt = new Date();
+          var utcDate = dt.toUTCString();
 
+	infoLog.push("[ " + utcDate + " ] Motion in  coop");
+
+});
 socket.on('goingOutside', function (data) {
         console.log("Chicken Left");
 	Event1();
