@@ -13,6 +13,16 @@ socket.on('outside', function (data) {
         console.log("outside motion");
 });
 
+socket.on('goingInside', function (data) {
+        console.log("Chicken Entered");
+	Event2();
+});
+
+socket.on('goingOutside', function (data) {
+        console.log("Chicken Left");
+	Event1();
+});
+
 $(function() {
 
   var button = document.getElementById('hello');

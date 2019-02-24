@@ -6,13 +6,11 @@ var Gpio = require('onoff').Gpio;
 var inside = new Gpio(27, 'in',  'both');
 var outside=new Gpio(22,'in','both');
 
-var goingOutside=false;
-var goingInside=false;
+var exitingState=0
+var entranceState=0
 var fpath = require('path');
 var insideState=false;
 var outsideState=false;
-var timeoutInside=null
-var timeoutOutside=null
 //This will open a server at localhost:5000. Navigate to this in your browser.
 app.listen(5000);
 
@@ -123,32 +121,54 @@ inside.watch(function (err, value) {
 	else
 	{
 	console.log(value)
-		if(value==1) {
+//		if(value==1) {
 			if(!insideState) {
 				console.log('motion !');
 				io.sockets.emit('inside');
 				insideState=true;
-				goingOutside=true;
-				if(timeoutInside!=null)
-					clearTimeout(timeoutInside);
-				timeoutInside=setTimeout(() => {goingOutside=false;},5000,'goingOutside');
-				if(goingInside==true)
+				switch(exitingState)
 				{
-					clearTimeout(timeoutInside);
-					goingInside=false;
-					goingOutside=false;
+					case 0:
+						exitingState=1;
+						break;
+					case 1:
+						break;
 					
-					io.sockets.emit('goingInside');
 				}
-			}
+				switch(entranceState)
+				{
+					case 1:
+					entranceState=2;
+					break;	
+				}
+//				
 		}
 		else
 		{
-			if(insideState=true)
-			{
+//			if(insideState=true)
+//			{
 				insideState=false;
+				switch(exitingState)
+				{
+					case 1:
+						exitingState=0;
+						break;
+					case 2:
+						exitingState=3;
+						break;
+				}
+				switch(entranceState)
+				{
+					case 1:
+						entranceState=0;
+						break;
+					case 4:
+						io.sockets.emit('goingInside');
+						entranceState=0;
+						break;
+				}
 			}
-		}
+//		}
 	}
 });
 
@@ -159,30 +179,52 @@ outside.watch(function (err, value) {
         else
         {
         console.log(value)
-                if(value==1) {
+  //              if(value==1) {
                         if(!outsideState) {
                                 console.log('motion !');
                                 io.sockets.emit('outside');
-                                outsideState=true;
-				goingInside=true;
-				if(timeoutOutside!=null)
-					clearTimeout(timeoutOutside);
-				timeoutOutside=setTimeout(() => {goingInside=false;},5000,'goingInside');
-				if(goingOutside==true)
+			switch(entranceState)
                                 {
-					clearTimeout(timeoutOutside);
-                                        goingOutside=false;
-					goingInside=false;
-                                        io.sockets.emit('goingOutside');
+                                        case 0:
+                                                entranceState=1;
+                                                break;
+                                        case 1:
+                                                break;
+
                                 }
-                        }
+                                switch(exitingState)
+                                {
+                                        case 1:
+                                        exitingState=2;
+                                        break;  
+                                }
+    //                    }
                 }
                 else
                 {
-                        if(outsideState=true)
-                        {
+      //                  if(outsideState=true)
+      //                  {
                                 outsideState=false;
-                        }
+				switch(entranceState)
+                                {
+                                        case 1:
+                                                entranceState=0;
+                                                break;
+                                        case 2:
+                                                entranceState=3;
+                                                break;
+                                }
+                                switch(exitingState)
+                                {
+                                        case 1:
+                                                exitingState=0;
+                                                break;
+                                        case 4:
+                                                io.sockets.emit('goingOutside');
+                                                exitingeState=0;
+                                                break;
+                                }
+ //                       }
                 }
         }
 });

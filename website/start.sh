@@ -1,0 +1,2 @@
+motion &
+node app.js
