@@ -4,6 +4,10 @@
     <!-- Links to the stylesheet and the Google Fonts font style -->
   <link rel="stylesheet" type="text/css" href="homepagestyle.css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- This Div is meant to for the side navigation bar -->
@@ -30,7 +34,7 @@
 <!-- insert IP of MJPG source into img src and appropriate resolution -->
     <div class="MJPG_stream">
       <center><h2><u>Live Feed</u></h2></center><br>
-      <img src="" height="" width="">
+      <img src="http://10.85.8.62:8081" height="480" width="640">
     </div>
 <!-- info log is a long list of text displaying events that happened.
       currently only displays when chickens have entered and exited.
@@ -63,6 +67,9 @@
       </script>
 
       TEST ONLY!<br>
+	<button id="hello" type="button">
+      Click me!
+  </button>
       <!-- these buttons are for testing only. -->
       Simulate Event 1: <button onclick="Event1();">Click</button><br>
       Simulate Event 2: <button onclick="Event2();">Click</button><br>
@@ -111,5 +118,6 @@
     <br>
   </main>
 </body>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+  <script src="/js/client.js"></script>
 </html>
